@@ -32,3 +32,25 @@ if ($result->num_rows > 0) {
 // Cerrar la conexión
 $conn->close();
 ?>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Obtén los valores del formulario
+    $email = $_POST["email"];
+    $name = $_POST["name"];
+    $phone = $_POST["phone"];
+    $message = $_POST["message"];
+
+    // Validación y procesamiento del formulario
+    if (!empty($email) && !empty($name) && !empty($message)) {
+        // Aquí puedes realizar el código necesario para enviar el mensaje, como enviar un correo electrónico o guardar en la base de datos.
+
+        // Si el mensaje se envía correctamente
+        echo "Mensaje enviado";
+    } else {
+        // Si hay algún campo faltante
+        echo "Error al enviar mensaje. Por favor, completa todos los campos obligatorios.";
+    }
+}
+?>
+
