@@ -9,8 +9,10 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Error en la conexión a la base de datos: " . $conn->connect_error);
+} else {
+    echo "Conexión exitosa a la base de datos."; // Mensaje de depuración
 }
-echo "Conexión exitosa"; // Este mensaje se mostrará si la conexión es exitosa.
+
 
 // Obtén los valores del formulario
 $email = $_POST["email"];
