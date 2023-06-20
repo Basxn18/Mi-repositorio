@@ -12,6 +12,27 @@ if ($conn->connect_error) {
     die("Error en la conexión a la base de datos: " . $conn->connect_error);
 }
 
+// Obtén los valores del formulario
+$email = $_POST["email"];
+$name = $_POST["name"];
+$phone = $_POST["phone"];
+$message = $_POST["message"];
+
+// Validación y procesamiento del formulario
+if (!empty($email) && !empty($name) && !empty($message)) {
+    // Crear la consulta SQL de inserción
+    $sql = "INSERT INTO tabla_datos (nombre, correo, telefono, mensaje) VALUES ('$name', '$email', '$phone', '$message')";
+
+    // Ejecutar la consulta
+    if ($conn->query($sql) === true) {
+        echo "Mensaje enviado correctamente.";
+    } else {
+        echo "Error al enviar el mensaje: " . $conn->error;
+    }
+} else {
+    echo "Error al enviar el mensaje. Por favor, completa todos los campos obligatorios.";
+}
+
 // Preparar la consulta SQL para recuperar los mensajes
 $sql = "SELECT * FROM tabla_datos";
 $result = $conn->query($sql);
@@ -32,25 +53,3 @@ if ($result->num_rows > 0) {
 // Cerrar la conexión
 $conn->close();
 ?>
-
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtén los valores del formulario
-    $email = $_POST["email"];
-    $name = $_POST["name"];
-    $phone = $_POST["phone"];
-    $message = $_POST["message"];
-
-    // Validación y procesamiento del formulario
-    if (!empty($email) && !empty($name) && !empty($message)) {
-        // Aquí puedes realizar el código necesario para enviar el mensaje, como enviar un correo electrónico o guardar en la base de datos.
-
-        // Si el mensaje se envía correctamente
-        echo "Mensaje enviado";
-    } else {
-        // Si hay algún campo faltante
-        echo "Error al enviar mensaje. Por favor, completa todos los campos obligatorios.";
-    }
-}
-?>
-
