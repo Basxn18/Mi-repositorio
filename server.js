@@ -1,16 +1,29 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
- const app = express();
+const app = express();
 const port = 3000;
- app.use(bodyParser.urlencoded({ extended: true }));
- MongoClient.connect('mongodb+srv://cluster0.1crsr13.mongodb.net/" --apiVersion 1 --username Basxnn', { useNewUrlParser: true })
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+MongoClient.connect('mongodb+srv://<username>:<password>@cluster0.1crsr13.mongodb.net/Form?retryWrites=true&w=majority', { useNewUrlParser: true })
   .then(client => {
-    const db = client.db('<database>');
-    const collection = db.collection('<collection>');
-     app.post('/submit-form', (req, res) => {
+    const db = client.db('Form');
+    const emailCollection = db.collection('email');
+    const messageCollection = db.collection('message');
+    const phoneCollection = db.collection('phone');
+    const nameCollection = db.collection('name');
+
+    app.post('/submit-form', (req, res) => {
       const formData = req.body;
-       collection.insertOne(formData)
+
+      // Insert data into respective collections
+      Promise.all([
+        emailCollection.insertOne({ email: formData.email }),
+        messageCollection.insertOne({ message: formData.message }),
+        phoneCollection.insertOne({ phone: formData.phone }),
+        nameCollection.insertOne({ name: formData.name })
+      ])
         .then(result => {
           res.send('Form data saved successfully');
         })
@@ -19,7 +32,8 @@ const port = 3000;
           res.status(500).send('An error occurred while saving the form data');
         });
     });
-     app.listen(port, () => {
+
+    app.listen(port, () => {
       console.log(`Server listening on port ${port}`);
     });
   })
