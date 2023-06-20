@@ -6,7 +6,7 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-MongoClient.connect('mongodb+srv://<username>:<password>@cluster0.1crsr13.mongodb.net/Form?retryWrites=true&w=majority', { useNewUrlParser: true })
+MongoClient.connect('mongodb+srv://Basxnn:montagas123.@cluster0.1crsr13.mongodb.net/Form?retryWrites=true&w=majority', { useNewUrlParser: true })
   .then(client => {
     const db = client.db('Form');
     const emailCollection = db.collection('email');
